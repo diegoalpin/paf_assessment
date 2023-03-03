@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>This is the Funds Transfer Form</h1>
+
+    <form
+      data-th-action="@{/transfer}"
+      data-th-object="${transfer}"
+      method="POST"
+    >
+      <table>
+        <tr>
+          <td>From Account</td>
+          <td>
+            <select data-th-field="${transfer.fromId}">
+              <option
+                th:each="account: ${accounts}"
+                th:value="${account.account_id}"
+              >
+                <span
+                  data-th-text="${account.name} + ' (' +${account.account_id} +')'"
+                ></span>
+              </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>To account</td>
+          <td>
+            <select data-th-field="${transfer.toId}">
+              <option
+                th:each="account: ${accounts}"
+                th:value="${account.account_id}"
+              >
+                <span
+                  data-th-text="${account.name} + ' (' +${account.account_id} +')'"
+                ></span>
+              </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Amount</td>
+          <td width="100px">
+            <input
+              type="text"
+              data-th-field="${transfer.amount}"
+              placeholder="up to 2 decimal places, e.g. 100.32"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>Comments</td>
+          <td>
+            <textarea
+              cols="20"
+              rows="10"
+              placeholder="Type here"
+              data-th-field="${transfer.comments}"
+            ></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><input type="submit" value="Transfer" /></td>
+        </tr>
+      </table>
+      <!-- <span data-th-if="#{fields.hasErrors}"></span> -->
+
+      <div data-th-if="${#fields.hasErrors('*')}">
+        <p
+          style="color: tomato"
+          data-th-each="err: ${#fields.errors('*')}"
+          data-th-text="${err}"
+        ></p>
+      </div>
+    </form>
+  </body>
+</html>
